@@ -1,0 +1,1 @@
+# Installing-Speckit-CLI-on-Termux
