@@ -1,97 +1,96 @@
-# Installing-Speckit-CLI-on-Termux
+# Getting Started with Spec Kit on Your Android Device
 
-## ⚙️ Spec Kit Setup on Termux: A Troubleshooting Guide
+## Putting "Spec Kit" on Your Android Phone: A Simple Guide
 
-This document details the successful installation and configuration of the GitHub Spec Kit CLI and the Gemini CLI agent on the Termux environment (Android), including solutions for common Termux-specific errors.
+This guide will walk you through setting up a tool called "Spec Kit" on your Android device using an app called "Termux." We'll explain each step in simple terms and help you get past common issues.
 
 ---
 
-### 1. Initial Spec Kit Installation and PATH Error
+### 1. First, Let's Install "Spec Kit"
 
-The process began with the installation of the `specify` tool via `uv` (a common Python tool installer).
+Think of this as installing a new app on your phone, but for the command line.
 
-#### 🐛 Error Encountered: Command Not Found
+#### 🐛 Problem: The computer can't find the new tool.
 
-After installation, running `specify check` failed:
+After installing, you might get a "command not found" error. This is like putting a new book on a bookshelf but not telling the librarian where you put it. The computer doesn't know where to look for the "Spec Kit" tool you just installed.
 
-```bash
-$ specify check
-No command specify found, did you mean:
- Command spectex in package mesa-demos from the x11-repo repository
- Command signify in package signify
- Command slugify in package slugify
+✅ **Solution: Tell the computer where to find it.**
 
-✅ Solution: Fix the PATH
-The executable was installed in a directory (~/.local/bin/) that was not in Termux's default execution path.
- * Add the directory to the PATH in your shell configuration file (e.g., ~/.bashrc):
-   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+We need to give the computer the correct location of the tool.
 
- * Apply the changes:
-   source ~/.bashrc
+- In Termux, type the following and press Enter:
+  `echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc`
 
-2. Installing the Gemini CLI Agent
-Spec Kit requires an AI agent (like Gemini CLI) to function. The Gemini CLI is installed via npm.
-🐛 Error Encountered: android_ndk_path (GYP Compilation Failure)
-Attempting to install the package failed because a dependency (node-pty) was trying to compile C++ code using a build system (node-gyp) that expected the Android NDK path to be defined, which is not standard in Termux.
-gyp: Undefined variable android_ndk_path in binding.gyp while trying to load binding.gyp
-gyp ERR! configure error
-gyp ERR! stack Error: `gyp` failed with exit code: 1
+- Then, to make the changes take effect, type this and press Enter:
+  `source ~/.bashrc`
 
-✅ Solution: Bypass the NDK Check
-This was solved by creating a global gyp configuration file to explicitly set the required variable to an empty string, satisfying the dependency check without needing the full NDK.
- * Install necessary build dependencies (if not already done):
-   pkg install clang libtool automake make
+### 2. Installing the "Gemini" Helper
 
- * Create the gyp configuration file to bypass the check:
-   mkdir -p ~/.gyp
-echo "{ 'variables': { 'android_ndk_path': '' } }" > ~/.gyp/include.gypi
+"Spec Kit" needs a helper, which is an AI assistant called "Gemini."
 
- * Install the Gemini CLI globally:
-   npm install -g @google/gemini-cli
+#### 🐛 Problem: The installation gets stuck.
 
-✨ Verification
-Installation confirmed by checking the version and running specify check:
-$ gemini -v
-0.10.0
+When you try to install Gemini, the process might fail. This is because the installer is looking for something related to Android development that isn't usually needed in Termux.
 
-$ specify check
-# ... (output shows "Gemini CLI (available)")
+✅ **Solution: We can tell the installer to skip that step.**
 
-3. Initializing a Project
-The next step was to set up a new project directory using specify init.
-🐛 Error Encountered: Missing Project Name/Context
-Running the command without specifying a target failed:
-$ specify init
-Error: Must specify either a project name, use '.' for current directory, or use --here flag
+- First, make sure you have the necessary tools for building software. Type this and press Enter:
+  `pkg install clang libtool automake make`
 
-✅ Solution: Specify a Project Name
-A project name was provided, telling Spec Kit where to initialize the files.
-$ specify init webview-app
+- Next, we'll create a special configuration file to tell the installer not to worry about the missing information. Type these two commands, pressing Enter after each one:
+  `mkdir -p ~/.gyp`
+  `echo "{ 'variables': { 'android_ndk_path': '' } }" > ~/.gyp/include.gypi`
 
-🐛 Error Encountered: Git Author Identity
-During initialization, Spec Kit attempts an initial Git commit, which failed because the user's global Git identity was not set:
-Error: Author identity unknown
-*** Please tell me who you are.
+- Now, you can install Gemini. Type this and press Enter:
+  `npm install -g @google/gemini-cli`
 
-✅ Solution: Configure Git Identity
-The error was fixed by setting the global user.name and user.email.
-$git config --global user.email "foxxmusa@gmail.com"$ git config --global user.name "Fackson Musa"
+✨ **How to check if it worked:**
 
-4. Running Spec Kit Slash Commands
-After initialization and navigating into the project, the first Spec Kit command was attempted.
-🐛 Error Encountered: Slash Command Not Found
-The user tried to run a slash command directly from the Termux shell:
-$ cd webview-app
-~/webview-app $ /speckit.constitution
-bash: /speckit.constitution: No such file or directory
+- Type `gemini -v` and press Enter. You should see a version number.
+- Type `specify check` and press Enter. You should see a message saying "Gemini CLI (available)."
 
-✅ Solution: Use Commands Inside the AI Agent
-Spec Kit's slash commands (/speckit.*) are designed to be interpreted by the AI agent's CLI (in this case, gemini), not the standard bash shell.
- * Navigate to the project folder:
-   cd webview-app
+### 3. Starting a New Project
 
- * Start the Gemini CLI in interactive mode:
-   gemini
+Now, let's create a new workspace for your project.
 
-   (Note: If this is the first time running gemini, you must run gemini --debug first, then /auth inside the session, copy the link, and complete the browser authentication.)
- * Once inside the gemini session (prompt is >), run the slash command:
+#### 🐛 Problem: The computer doesn't know what to name the project.
+
+If you just type `specify init`, you'll get an error. The computer needs a name for your new project folder.
+
+✅ **Solution: Give your project a name.**
+
+- For example, to create a project called "webview-app," you would type:
+  `specify init webview-app`
+
+#### 🐛 Problem: The computer doesn't know who you are.
+
+"Spec Kit" uses a system called "Git" to keep track of changes. Git needs to know your name and email address.
+
+✅ **Solution: Introduce yourself to Git.**
+
+- Type the following commands, but replace the examples with your own name and email address:
+  `git config --global user.email "youremail@example.com"`
+  `git config --global user.name "Your Name"`
+
+### 4. Giving Commands to "Spec Kit"
+
+"Spec Kit" has special commands that start with a slash (`/`), like `/speckit.constitution`.
+
+#### 🐛 Problem: The regular command line doesn't understand these special commands.
+
+If you type a slash command directly into the Termux command line, you'll get an error. These commands are meant for the Gemini helper, not for Termux itself.
+
+✅ **Solution: Talk to the Gemini helper directly.**
+
+1.  **Go to your project folder.** If you named your project "webview-app," you would type:
+    `cd webview-app`
+
+2.  **Start the Gemini helper.** Type the following and press Enter:
+    `gemini`
+
+    (If this is your first time, you might need to do a one-time login. The program will give you instructions.)
+
+3.  **Now you can use the special commands.** Once you see the `>` symbol, you're talking to Gemini. You can now type your slash command, like:
+    `> /speckit.constitution`
+
+And that's it! You've successfully set up "Spec Kit" and are ready to start using it.
