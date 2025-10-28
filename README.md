@@ -1,18 +1,16 @@
 # Installing-Speckit-CLI-on-Termux
 
-That's a great idea! Documenting the setup process, including the troubleshooting steps, creates an invaluable reference guide for Termux users.
-Here is the complete process, including the errors and their solutions, documented in Markdown format.
-# ⚙️ Spec Kit Setup on Termux: A Troubleshooting Guide
+## ⚙️ Spec Kit Setup on Termux: A Troubleshooting Guide
 
 This document details the successful installation and configuration of the GitHub Spec Kit CLI and the Gemini CLI agent on the Termux environment (Android), including solutions for common Termux-specific errors.
 
 ---
 
-## 1. Initial Spec Kit Installation and PATH Error
+### 1. Initial Spec Kit Installation and PATH Error
 
 The process began with the installation of the `specify` tool via `uv` (a common Python tool installer).
 
-### 🐛 Error Encountered: Command Not Found
+#### 🐛 Error Encountered: Command Not Found
 
 After installation, running `specify check` failed:
 
