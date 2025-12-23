@@ -200,7 +200,7 @@ This error occurs because the Gemini CLI (which depends on the `node-pty` packag
         ```
     This configuration tells `node-gyp` (which is run by `npm`) to use an empty path for the NDK variable, satisfying the dependency check.
 3.  **Reinstall Gemini CLI**
-
+```
 Checking for installed tools...
 
 
