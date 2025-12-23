@@ -120,7 +120,7 @@ Tip: Install an AI assistant for the best experience
 
 ## Next Steps: Installing an AI Agent (Gemini CLI)
 
-That's excellent! The message "Specify CLI is ready to use!" confirms that you successfully fixed the path issue, and the `specify` command is now working on your Termux setup.
+The message "Specify CLI is ready to use!" confirms that you successfully fixed the path issue, and the `specify` command is now working on your Termux setup.
 
 The output shows that you have the core prerequisites (Git) but are missing the recommended AI assistants, which is what the next step is for. Since you've successfully installed and run the checks for Spec Kit, the next logical step is to install one of the supported AI agents so you can actually use the Spec Kit workflow commands like `/speckit.specify`.
 
@@ -136,7 +136,7 @@ The Gemini CLI is a strong candidate for installation on Termux.
 
 ### Installing Gemini CLI on Termux
 
-That's great progress! Now that the `specify` command is working, the next crucial step to use Spec Kit is installing one of the supported AI agents.
+Now that the `specify` command is working, the next crucial step to use Spec Kit is installing one of the supported AI agents.
 
 The Gemini CLI is an excellent choice for Termux. It's an open-source tool that brings the power of Gemini directly into your terminal, and Spec Kit is built to integrate with it.
 
@@ -153,52 +153,9 @@ Here is the step-by-step guide to install and set up Gemini CLI on Termux:
     ```bash
     npm install -g @google/gemini-cli
     ```
-
-3.  **Launch and Authenticate Gemini CLI**
-    The first time you run `gemini`, you need to authenticate your Google Account to use the model. Since Termux is a command-line environment and can't automatically open a browser window, you'll need a specific method for login.
-    *   Start the Gemini CLI in debug mode to get the login link:
-        ```bash
-        gemini --debug
-        ```
-    *   When prompted inside the `gemini` CLI interface, enter the following command:
-        ```
-        /auth
-        ```
-    *   The Gemini CLI will now display a login URL in your terminal. Copy this URL.
-    *   Open your Android browser (e.g., Chrome or Firefox) and paste the URL you copied.
-        *   Complete the Google account sign-in process in the browser.
-        *   Once authentication is complete, the browser will likely display a success message and ask you to return to the terminal.
-    *   Switch back to Termux. The Gemini CLI should now detect the successful login and be authenticated.
-
-4.  **Verify Installation with Spec Kit**
-    Finally, run the `specify check` command again to confirm that Spec Kit now recognizes the Gemini CLI:
-    ```bash
-    specify check
-    ```
-    You should now see the status for Gemini CLI change from `(not found)` to `(available)`.
-
----
-
-## Troubleshooting: `gyp` Compilation Error
-
+#### Common Issue: Troubleshooting `gyp` compilation error. (Bypass `android_ndk_path` Check)
 ```
-gyp info it worked if it ends with ok
-gyp info using node-gyp@11.2.0
-gyp info using node@24.9.0 | android | arm64
-gyp info find Python using Python version 3.12.12 found at "/data/data/com.termux/files/usr/bin/python3"
-gyp http GET https://nodejs.org/download/release/v24.9.0/node-v24.9.0-headers.tar.gz
-gyp http 200 https://nodejs.org/download/release/v24.9.0/node-v24.9.0-headers.tar.gz
-gyp http GET https://nodejs.org/download/release/v24.9.0/SHASUMS256.txt
-gyp http 200 https://nodejs.org/download/release/v24.9.0/SHASUMS256.txt
-gyp info spawn /data/data/com.termux/files/usr/bin/python3
-gyp info spawn args [
-gyp info spawn args   '/data/data/com.termux/files/usr/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py',
-gyp info spawn args   'binding.gyp',
-gyp info spawn args   '-f',
-gyp info spawn args   'make',
-gyp info spawn args   '-I',
-gyp info spawn args   '/data/data/com.termux/files/usr/lib/node_modules/@google/gemini-cli/node_modules/node-pty/build/config.gypi',
-gyp info spawn args   '-I',
+
 gyp info spawn args   '/data/data/com.termux/files/usr/lib/node_modules/npm/node_modules/node-gyp/addon.gypi',
 gyp info spawn args   '-I',
 gyp info spawn args   '/data/data/com.termux/files/home/.cache/node-gyp/24.9.0/include/node/common.gypi',
@@ -228,55 +185,9 @@ gyp ERR! node -v v24.9.0
 gyp ERR! node-gyp -v v11.2.0
 gyp ERR! not ok
 ```
-
 This error occurs because the Gemini CLI (which depends on the `node-pty` package) requires native compilation during installation, and the build system is looking for a path to the Android Native Development Kit (NDK), which is not automatically set up in a standard Termux environment. The specific error is:
 `gyp: Undefined variable android_ndk_path in binding.gyp`
 
-To resolve this compilation error, you need to install the necessary build tools and then try the installation again, potentially using an alternative approach that bypasses the NDK requirement or forces a source build.
-
-Here is the revised plan to get Gemini CLI successfully installed on Termux:
-
-1.  **Install Required Build Tools**
-    You need to ensure Termux has the compilers and libraries necessary for native module compilation:
-    ```bash
-    pkg install clang libtool automake make
-    ```
-
-2.  **Force Source Compilation (Recommended Fix)**
-    The issue often arises when `node-pty` tries to use a pre-built binary for Android that fails, or the build process incorrectly assumes the full Android NDK environment. You can often fix this by installing the package with the `--build-from-source` flag for the dependency.
-    *   Remove any failed installation attempts:
-        ```bash
-        npm uninstall -g @google/gemini-cli
-        ```
-    *   Reinstall, forcing the dependency (`node-pty`) to build from source:
-        ```bash
-        npm install -g @google/gemini-cli --build-from-source
-        ```
-    This tells npm to ignore pre-built binaries and compile the C++ dependencies like `node-pty` using the local Termux toolchain (which you installed in Step 1).
-
-3.  **Proceed with Authentication**
-    After the installation completes successfully (you should not see the `gyp ERR!` lines), you can proceed with the authentication steps from the previous response:
-    *   Start the Gemini CLI in debug mode:
-        ```bash
-        gemini --debug
-        ```
-    *   Once inside the CLI, initiate the authentication:
-        ```
-        /auth
-        ```
-    *   Copy the login URL, open it in your browser, complete the Google sign-in, and then return to Termux.
-
----
-
-### Alternative Fix: Bypass `android_ndk_path` Check
-
-You are running into a very common and known issue when installing packages with native dependencies (like `node-pty` which Gemini CLI uses) on Termux. The `gyp` build system incorrectly assumes a full Android NDK setup is required, even when compiling for the native Termux architecture.
-
-The flag `--build-from-source` is not directly supported by npm in the way we hoped, which is why it printed the warning and the error persisted.
-
-The fix is to manually configure the `gyp` environment to provide an empty value for the missing variable, which will bypass the check without having to install the huge Android NDK package.
-
-1.  **Bypass the `android_ndk_path` Check**
     You need to create a global configuration file for `gyp` that sets the missing variable to an empty string (`''`).
     Run the following two commands:
     *   Create the required hidden directory:
@@ -288,47 +199,10 @@ The fix is to manually configure the `gyp` environment to provide an empty value
         echo "{ 'variables': { 'android_ndk_path': '' } }" > ~/.gyp/include.gypi
         ```
     This configuration tells `node-gyp` (which is run by `npm`) to use an empty path for the NDK variable, satisfying the dependency check.
-
-2.  **Reinstall Gemini CLI**
-    Now that the `gyp` configuration is fixed, try the global installation command again. It should be able to compile the native modules successfully.
-    ```bash
-    npm install -g @google/gemini-cli
-    ```
-    If the installation succeeds (you will see the "added 584 packages" message without any `gyp ERR!` lines above it), you can proceed to the next step.
-
-3.  **Verification and Authentication**
-    *   Verify the installation:
-        ```bash
-        gemini -v
-        ```
-        This should print the installed version number of the Gemini CLI.
-    *   Run Spec Kit check:
-        ```bash
-        specify check
-        ```
-        This should now show `Gemini CLI (available)`.
-
-Once this is confirmed, you are ready to use the authentication steps we discussed previously.
-
----
-
-## Success!
-
-```
-$ gemini -v
-0.10.0
-~ $ specify check
-
-     ███████╗██████╗ ███████╗ ██████╗██╗███████╗██╗   ██╗
-     ██╔════╝██╔══██╗██╔════╝██╔════╝██║██╔════╝╚██╗ ██╔╝
-     ███████╗██████╔╝█████╗  ██║     ██║█████╗   ╚████╔╝
-     ╚════██║██╔═══╝ ██╔══╝  ██║     ██║██╔══╝    ╚██╔╝
-     ███████║██║     ███████╗╚██████╗██║██║        ██║
-     ╚══════╝╚═╝     ╚══════╝ ╚═════╝╚═╝╚═╝        ╚═╝
-
-      GitHub Spec Kit - Spec-Driven Development Toolkit
+3.  **Reinstall Gemini CLI**
 
 Checking for installed tools...
+
 
 Check Available Tools
 ├── ● Git version control (available)
@@ -349,10 +223,12 @@ Check Available Tools
 ├── ● Visual Studio Code (not found)
 └── ● Visual Studio Code Insiders (not found)
 
+
 Specify CLI is ready to use!
 ```
 
-That is fantastic news!
+
+Great!
 
 You have successfully:
 *   Fixed the `$PATH` issue for the `specify` command.
