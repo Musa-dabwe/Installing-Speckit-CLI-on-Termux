@@ -154,8 +154,8 @@ Here is the step-by-step guide to install and set up Gemini CLI on Termux:
     npm install -g @google/gemini-cli
     ```
 #### Common Issue: Troubleshooting `gyp` compilation error. (Bypass `android_ndk_path` Check)
-```
 
+```
 gyp info spawn args   '/data/data/com.termux/files/usr/lib/node_modules/npm/node_modules/node-gyp/addon.gypi',
 gyp info spawn args   '-I',
 gyp info spawn args   '/data/data/com.termux/files/home/.cache/node-gyp/24.9.0/include/node/common.gypi',
@@ -186,11 +186,14 @@ gyp ERR! node-gyp -v v11.2.0
 gyp ERR! not ok
 ```
 This error occurs because the Gemini CLI (which depends on the `node-pty` package) requires native compilation during installation, and the build system is looking for a path to the Android Native Development Kit (NDK), which is not automatically set up in a standard Termux environment. The specific error is:
-`gyp: Undefined variable android_ndk_path in binding.gyp`
 
-    You need to create a global configuration file for `gyp` that sets the missing variable to an empty string (`''`).
+```
+gyp: Undefined variable android_ndk_path in binding.gyp
+```
+You need to create a global configuration file for `gyp` that sets the missing variable to an empty string (`''`).
     Run the following two commands:
     *   Create the required hidden directory:
+    
         ```bash
         mkdir -p ~/.gyp
         ```
@@ -199,9 +202,9 @@ This error occurs because the Gemini CLI (which depends on the `node-pty` packag
         echo "{ 'variables': { 'android_ndk_path': '' } }" > ~/.gyp/include.gypi
         ```
     This configuration tells `node-gyp` (which is run by `npm`) to use an empty path for the NDK variable, satisfying the dependency check.
+    
 3.  **Reinstall Gemini CLI**
-```
-Checking for installed tools...
+``` Checking for installed tools...
 
 
 Check Available Tools
