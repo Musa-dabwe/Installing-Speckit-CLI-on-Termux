@@ -205,7 +205,33 @@ echo "{ 'variables': {'android_ndk_path': '' } }" > ~/.gyp/include.gypi
 This configuration tells `node-gyp` (which is run by `npm`) to use an empty path for the NDK variable, satisfying the dependency check.
     
 3.  **Reinstall Gemini CLI**
-``` Checking for installed tools...
+
+Run the Gemini install script again but first clean the previously failed attempt by running:
+
+```bash
+npm uninstall -g @google/gemini-cli
+```
+
+Then attempt to reinstall the Gemini CLI by running 
+
+```bash
+npm install -g @google/gemini-cli
+```
+4. **Verification**
+Confirm installation by checking the version and running specify check:
+```bash
+gemini -v
+```
+The output should reveal the version of the Gemini CLI currently installed.
+
+`0.10.0`
+The run specify check:
+```bash
+specify check
+```
+The output should shows "Gemini CLI (available)"
+    
+```Checking for installed tools
 
 
 Check Available Tools
