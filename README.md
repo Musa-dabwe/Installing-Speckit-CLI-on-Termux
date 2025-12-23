@@ -90,7 +90,7 @@ To fix this, you need to first find the installation directory and then add it t
 
 ### Example Output of `specify check`
 
-```
+```Output
 Checking for installed tools...
 
 Check Available Tools
@@ -111,12 +111,10 @@ Check Available Tools
 ├── ● Amp (not found)
 ├── ● Visual Studio Code (not found)
 └── ● Visual Studio Code Insiders (not found)
+```
 
 Specify CLI is ready to use!
 Tip: Install an AI assistant for the best experience
-```
-
----
 
 ## Next Steps: Installing an AI Agent (Gemini CLI)
 
@@ -155,7 +153,7 @@ Here is the step-by-step guide to install and set up Gemini CLI on Termux:
     ```
 #### Common Issue: Troubleshooting `gyp` compilation error. (Bypass `android_ndk_path` Check)
 
-```
+```Output
 gyp info spawn args   '/data/data/com.termux/files/usr/lib/node_modules/npm/node_modules/node-gyp/addon.gypi',
 gyp info spawn args   '-I',
 gyp info spawn args   '/data/data/com.termux/files/home/.cache/node-gyp/24.9.0/include/node/common.gypi',
@@ -218,21 +216,27 @@ Then attempt to reinstall the Gemini CLI by running
 npm install -g @google/gemini-cli
 ```
 4. **Verification**
+   
 Confirm installation by checking the version and running specify check:
 ```bash
 gemini -v
 ```
+
 The output should reveal the version of the Gemini CLI currently installed.
 
 `0.10.0`
-The run specify check:
+
+Then run specify check:
+
 ```bash
 specify check
 ```
+
 The output should shows "Gemini CLI (available)"
     
-```Checking for installed tools
+```Output
 
+Checking for installed tools
 
 Check Available Tools
 ├── ● Git version control (available)
