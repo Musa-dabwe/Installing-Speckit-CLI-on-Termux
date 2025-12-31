@@ -51,18 +51,19 @@ You can then navigate into the project and begin your spec-driven development wo
 
 ## Troubleshooting: `specify` Command Not Found
 
-If running `specify check` fails the first you should run
+If running `specify check` fails the first time you should run
 ```bash
 uv tool update-shell
 ```
 This is a common issue when installing tools using `uv tool install` on Termux, as the executable is often placed in a directory that isn't automatically added to your environment path.
 
 ### Run the `specify check` Command
-    The `specify` command should now be recognized.
-    ```bash
-    specify check
-    ```
-    This should execute the Spec Kit check function without the "No command specify found" error.
+The `specify` command should now be recognized.
+    
+```bash
+specify check
+```
+This should execute the Spec Kit check function without the "No command specify found" error.
 
 ---
 
