@@ -272,7 +272,8 @@ The last step before you can start coding is to authenticate the Gemini CLI and 
     *   Return to Termux. The `gemini` CLI should detect the successful login and confirm authentication.
 
 2.  **Initialize a Spec Kit Project**
-    Once authenticated, you are ready to create your first spec-driven development project using the `specify init` command.
+   
+Once authenticated, you are ready to create your first spec-driven development project using the `specify init` command.
     Navigate to the directory where you want to create your project (e.g., `~/projects/`) and run:
     ```bash
     specify init
