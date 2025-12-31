@@ -51,35 +51,13 @@ You can then navigate into the project and begin your spec-driven development wo
 
 ## Troubleshooting: `specify` Command Not Found
 
-It looks like the `specify` command isn't in your Termux system's `$PATH` after running the installation command. This is a common issue when installing tools using `uv tool install` on Termux, as the executable is often placed in a directory that isn't automatically added to your environment path.
+If running `specify check` fails the first you should run
+```bash
+uv tool update-shell
+```
+This is a common issue when installing tools using `uv tool install` on Termux, as the executable is often placed in a directory that isn't automatically added to your environment path.
 
-To fix this, you need to first find the installation directory and then add it to your Termux shell's path.
-
-*   **Step 1: Find the Installation Directory**
-    The `uv tool install` command typically places executables in `~/.local/bin/`.
-    *   Check the contents of the `~/.local/bin/` directory:
-        ```bash
-        ls ~/.local/bin/
-        ```
-    You should see an executable file named `specify` (or possibly `specify-cli`) listed there.
-
-*   **Step 2: Add the Directory to Your PATH**
-    Since Termux often doesn't include `~/.local/bin` in the default path, you need to manually add it so your shell can find the `specify` command.
-    *   Edit your shell startup file (e.g., `~/.bashrc` if you use Bash, or `~/.zshrc` if you use Zsh). Most Termux users use Bash by default.
-        ```bash
-        nano ~/.bashrc
-        ```
-    *   Add the following line to the end of the file:
-        ```bash
-        export PATH="$HOME/.local/bin:$PATH"
-        ```
-    *   Save the file (`Ctrl+O`, `Enter`) and Exit the editor (`Ctrl+X`).
-    *   Reload your shell configuration to apply the change:
-        ```bash
-        source ~/.bashrc
-        ```
-
-*   **Step 3: Run the `specify check` Command**
+### Run the `specify check` Command
     The `specify` command should now be recognized.
     ```bash
     specify check
